@@ -1,19 +1,23 @@
 import sys;
 import pyautogui;
 
-# OS can be 'linux' (Linux), 'win32' (Windows), 'darwin' (macOS)
+# Get OS
 os = sys.platform;
 print("Operating system:", os);
 
+# Get screen width + height
 width, height = pyautogui.size();
 print("Screen size:", width, ",", height, "pixels");
 
+# Acceptable OS's are 'linux' (Linux), 'win32' (Windows), 'darwin' (macOS)
 if (os.startswith('darwin')):
     print("Running on MacOS system");
 elif (os.startswith('win32')):
     print("Running on Windows32 system");
 elif (os.startswith('linux')):
     print("Running on Linux system");
+else:
+    print("System not recognized. Please try again on a Linux, Windows32, or MacOS system.");
 
 def main():
     # pyautogui.moveTo(x, y, duration in seconds);
