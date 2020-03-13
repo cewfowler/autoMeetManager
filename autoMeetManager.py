@@ -1,5 +1,7 @@
 import sys;
 import pyautogui;
+sys.path.append('config/')
+from configureApp import configureMeetManager;
 
 # Get OS
 os = sys.platform;
@@ -26,6 +28,7 @@ def main():
     pyautogui.moveTo(width/4, height/4, duration=0.25);
     pyautogui.moveTo(width*3/4, height/4, duration=0.25);
     pyautogui.moveTo(width*3/4, height*3/4, duration=0.25);
+    configureMeetManager();
 
 if __name__ == '__main__':
     main();
