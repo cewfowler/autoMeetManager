@@ -8,6 +8,7 @@ def readConfigFile():
     try:
         with open('config/config.json', 'r') as f:
             config = json.load(f);
+            f.close();
 
         return config;
     except:
@@ -17,6 +18,7 @@ def readConfigFile():
 def updateConfigFile(updatedConfig):
     with open('config/config.json', 'w+') as f:
         json.dump(updatedConfig, f);
+        f.close();
 
 def adjustCursor(x, y):
     width, height = pyautogui.size();

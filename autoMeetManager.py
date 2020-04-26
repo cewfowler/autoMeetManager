@@ -1,7 +1,6 @@
 import sys;
 import pyautogui;
-sys.path.append('config/')
-from configureApp import configureMeetManager;
+from config.configureApp import configureMeetManager;
 
 # Get OS
 os = sys.platform;
