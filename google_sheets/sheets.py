@@ -70,9 +70,6 @@ def getDataFromSheet(sheet_url):
                 #print("Time: " + time);
                 entries.update({entry: time})
 
-        #print("Entries: ");
-        #print(entries);
-
         print(item[row[1]]);
         print(entries);
         print();
