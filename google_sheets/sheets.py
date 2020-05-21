@@ -52,6 +52,7 @@ def getDataFromSheet(sheet_url):
     #print(events);
     signups = dict();
 
+    print("Signups: ");
     for item in allData:
         #print("Timestamp: " + str( item[row[0]] ));
         #print("Name: " + str( item[row[1]] ));
@@ -72,13 +73,12 @@ def getDataFromSheet(sheet_url):
         #print("Entries: ");
         #print(entries);
 
+        print(item[row[1]]);
+        print(entries);
+        print();
+
         # Add the person and their entries to signups
         signups.update({item[row[1]]: entries});
-
-        break;
-
-    print("Signups: ");
-    print(signups);
 
 
 def main():
