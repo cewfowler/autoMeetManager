@@ -77,6 +77,8 @@ def getDataFromSheet(sheet_url):
         # Add the person and their entries to signups
         signups.update({item[row[1]]: entries});
 
+        return signups;
+
 
 def main():
     getDataFromSheet("https://docs.google.com/spreadsheets/d/1r8Dn0gzlC2RoF6j2EH7q57u3r3VEdQPjz5651-OF1_g/edit#gid=882094980")
