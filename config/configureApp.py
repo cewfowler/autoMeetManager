@@ -92,6 +92,28 @@ def configureMeetManager():
     except:
         startAppPos = {"x": 10, "y": 10}
 
+    try:
+        events = config["events"];
+    except:
+        events = { "50 fly":        {"x": 10, "y": 10},
+                   "50 back":       {"x": 10, "y": 10},
+                   "50 breast":     {"x": 10, "y": 10},
+                   "50 free":       {"x": 10, "y": 10},
+                   "100 fly":       {"x": 10, "y": 10},
+                   "100 back":      {"x": 10, "y": 10},
+                   "100 breast":    {"x": 10, "y": 10},
+                   "100 free":      {"x": 10, "y": 10},
+                   "100 im":        {"x": 10, "y": 10},
+                   "200 fly":       {"x": 10, "y": 10},
+                   "200 back":      {"x": 10, "y": 10},
+                   "200 breast":    {"x": 10, "y": 10},
+                   "200 free":      {"x": 10, "y": 10},
+                   "200 im":        {"x": 10, "y": 10},
+                   "400 im":        {"x": 10, "y": 10},
+                   "500 free":      {"x": 10, "y": 10},
+                   "1000 free":     {"x": 10, "y": 10},
+                 };
+
     x = startAppPos["x"];
     y = startAppPos["y"];
 
