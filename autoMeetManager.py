@@ -1,6 +1,8 @@
 import sys;
 import pyautogui;
-from config.configureApp import configureMeetManager;
+import argparse;
+from config.configureApp import configureMeetManager, readConfigFile;
+from google_sheets.sheets import getDataFromSheet;
 
 # Get OS
 os = sys.platform;
@@ -20,14 +22,31 @@ elif (os.startswith('linux')):
 else:
     print("System not recognized. Please try again on a Linux, Windows32, or MacOS system.");
 
-def main():
+###### Main application ######
+#   configure: default=False; this flag determines whether the program will
+#       first configure the necessary mouse locations
+#   sheetsUrl: default should not be used except for testing; contains the url
+#       to the google sheet with the meet entries
+def main(configure, sheetsUrl):
+    if (configure):
+        print('Beginning configuration...');
+        configureMeetManager();
+
+    config = readConfigFile();
+
+    signups = getDataFromSheet(sheetsUrl);
+
+    for swimmer in signups:
+        print(swimmer);
+        print(signups[swimmer])
+
     # pyautogui.moveTo(x, y, duration in seconds);
-    # Moves the mouse in a square starting from bottom right, clockwise
-    pyautogui.moveTo(width/4, height*3/4, duration=0.25);
-    pyautogui.moveTo(width/4, height/4, duration=0.25);
-    pyautogui.moveTo(width*3/4, height/4, duration=0.25);
-    pyautogui.moveTo(width*3/4, height*3/4, duration=0.25);
-    configureMeetManager();
+
 
 if __name__ == '__main__':
-    main();
+    parser = argparse.ArgumentParser(description="Automate meet entries.");
+    parser.add_argument('-c', '--config', action='store_true', help='When this flag is set, the program first configures the application.');
+    parser.add_argument('--sheet', help='The meet signup url for access to the google sheet.', default="https://docs.google.com/spreadsheets/d/1r8Dn0gzlC2RoF6j2EH7q57u3r3VEdQPjz5651-OF1_g/edit#gid=882094980");
+    args = parser.parse_args();
+
+    main(args.config, args.sheet);

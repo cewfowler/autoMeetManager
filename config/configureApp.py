@@ -4,6 +4,7 @@ import json;
 import readchar;
 
 # Reads config info
+#   Returns config object or empty object if there is an error
 def readConfigFile():
     try:
         with open('config/config.json', 'r') as f:
@@ -15,11 +16,18 @@ def readConfigFile():
         return {};
 
 # Writes updated config info
+#   updatedConfig: value to update
 def updateConfigFile(updatedConfig):
     with open('config/config.json', 'w+') as f:
         json.dump(updatedConfig, f);
         f.close();
 
+# Allows user to update cursor location for config
+#   x: starting x position
+#   y: starting y position
+#   Returns new x and y positions, or -1 if process cancelled
+#   newX: adjusted x position
+#   newY: adjusted y position
 def adjustCursor(x, y):
     width, height = pyautogui.size();
     wrongKeyAttempts = 3;
@@ -85,8 +93,10 @@ def adjustCursor(x, y):
 
     return x, y;
 
+# Configure all the mouse locations for the application
 def configureMeetManager():
     config = readConfigFile();
+    
     try:
         startAppPos = config["startAppPos"];
     except:
@@ -125,7 +135,20 @@ def configureMeetManager():
 
     startAppPos["x"] = newX;
     startAppPos["y"] = newY;
-    updateConfigFile({"startAppPos": startAppPos});
+
+    print("Configure event positions:\n");
+    for event in events:
+        x = events[event]["x"];
+        y = events[event]["y"];
+        newX,newY = adjustCursor(x,y);
+        if (newX == -1 and newY == -1):
+            print("Update config cancelled.")
+            return -1;
+
+        events[event]["x"] = newX;
+        events[event]["y"] = newY;
+
+    updateConfigFile({"startAppPos": startAppPos, "eventPos": events});
     print("Updated config file!");
 
     return 0;

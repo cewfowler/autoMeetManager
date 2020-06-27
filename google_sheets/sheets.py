@@ -1,20 +1,23 @@
+import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
+# Get swimmer meet entries from google sheet
+#   sheetUrl: default should not be used except for testing; contains the url
+#       to the google sheet with the meet entries
+#   Returns dict containing swimmers and all their entries
+def getDataFromSheet(sheetUrl):
+    # Authenticate for google sheets access
+    scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',"https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
 
-scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',"https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
+    credsFile = os.path.join(os.path.dirname(__file__), "creds.json");
+    creds = ServiceAccountCredentials.from_json_keyfile_name(credsFile, scope);
+    client = gspread.authorize(creds);
 
-creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope);
-client = gspread.authorize(creds);
-
-def getDataFromSheet(sheet_url):
-    # Open the sheet, get the records, and get the first row (has names, events)
-    sheet = client.open_by_url(sheet_url).sheet1;
+    # Open the sheet, get the records, and get the first row (has event names)
+    sheet = client.open_by_url(sheetUrl).sheet1;
     allData = sheet.get_all_records();
     row = sheet.row_values(1);
-
-    #print("Row: ");
-    #print(row);
 
     lowerRow = [item.lower() for item in row];
     events = { "50 fly":        -1,
@@ -36,8 +39,8 @@ def getDataFromSheet(sheet_url):
                "1000 free":     -1,
              };
 
+    # If event exists, add index to dictionary
     for event in events:
-        # If event exists, add index to dictionary
         try:
             index = lowerRow.index(event);
             events[event] = index;
@@ -48,14 +51,11 @@ def getDataFromSheet(sheet_url):
     # Remove events that don't exist in this meet
     events = {event:index for event, index in events.items() if index != -1};
 
-    #print("Events: ");
-    #print(events);
+    # Create dict with swimmers + entries and print to console
     signups = dict();
 
     print("Signups: ");
     for item in allData:
-        #print("Timestamp: " + str( item[row[0]] ));
-        #print("Name: " + str( item[row[1]] ));
 
         entries = dict();
         for event in events:
@@ -77,7 +77,7 @@ def getDataFromSheet(sheet_url):
         # Add the person and their entries to signups
         signups.update({item[row[1]]: entries});
 
-        return signups;
+    return signups;
 
 
 def main():
