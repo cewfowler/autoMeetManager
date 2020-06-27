@@ -16,6 +16,7 @@ pip3 install pyautogui readchar gspread oauth2client
 * Click on the MeetManager Service Account.
 * On the bottom of the page, click *Create Key*.
 * Make sure JSON is selected as the key type and a download should begin. Save the file as _**creds.json**_ and put it in the _**google_sheets**_ folder.
+* This step only needs to be done once.
 2. After creating the google form, open the response sheet. Click the *Share* button and go to _**creds.json**_ found in the _**google_sheets**_ directory. Copy the client_email (Ex. "meetmanager@future-sonar-276916.iam.gserviceaccount.com") and paste it in the share box. Then click *Done*.
 
 ## Running the program ##
