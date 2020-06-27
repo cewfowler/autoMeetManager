@@ -6,10 +6,7 @@
 1. [Install python](https://programwithus.com/learn-to-code/install-python3-mac/)
 2. Install the necessary packages:
 ```
-pip3 install pyautogui
-pip3 install readchar
-pip3 install gspread
-pip3 install oauth2client
+pip3 install pyautogui readchar gspread oauth2client
 ```
 - If there is an error using `pip3 install`, try `python3 -m pip install`.
 
@@ -23,19 +20,28 @@ pip3 install oauth2client
 
 ## Running the program ##
 1. Open the command line/terminal.
-2. Run `python3 <folder_location>/autoMeetManager/autoMeetManager.py --sheet
-<sheet_url>` using the correct path.
+2. Run the program:
+```
+python3 <folder_location>/autoMeetManager/autoMeetManager.py --sheet <sheet_url>
+```
   - _**\<folder\_location\>**_ is the location of the autoMeetManager
   application in your folder system. You can navigate to the
-  _**autoMeetManager**_ folder so you can simply run `python3
-  autoMeetManager.py --sheet <sheet_url>`
+  _**autoMeetManager**_ folder so you can simply run:
+  ```
+  python3 autoMeetManager.py --sheet <sheet_url>
+  ```
     - To navigate your file system from the command line use ```cd <subdirectory
     or path>``` to change directories, ```ls``` to check current subdirectories,
     and ```pwd``` to check the current directory.
   - _**\<sheet_url\>**_ is the url of the google sheet containing the meet entry
   data. To prevent errors, wrap the url in \"\".
   - To run with configuration setup (required on first run) add the _**-c**_ or
-  _**--config**_ flag `python3 autoMeetManager.py --sheet <sheet_url> -c`
+  _**--config**_ flag:
+  ```
+  python3 autoMeetManager.py --sheet <sheet_url> -c
+  ```
+3. Ensure the program is correctly configured by observing the first few
+meet entries.
 
 
   [Getting Google Form Responses](https://www.youtube.com/watch?v=cnPlKLEGR7E)
