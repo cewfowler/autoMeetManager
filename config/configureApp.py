@@ -33,46 +33,59 @@ def configureMeetManager():
         startAppPos = {"x": 10, "y": 10};
 
     try:
-        addAthlete = config["addAthlete"];
+        athletesPos = config["athletesPos"];
     except:
-        addAthlete = {"x": 10, "y": 10};
+        athletesPos = {"x": 10, "y": 10};
 
     try:
-        events = config["events"];
+        addAthletePos = config["addAthletePos"];
     except:
-        events = { "50 fly":        {"x": 10, "y": 10},
-                   "50 back":       {"x": 10, "y": 10},
-                   "50 breast":     {"x": 10, "y": 10},
-                   "50 free":       {"x": 10, "y": 10},
-                   "100 fly":       {"x": 10, "y": 10},
-                   "100 back":      {"x": 10, "y": 10},
-                   "100 breast":    {"x": 10, "y": 10},
-                   "100 free":      {"x": 10, "y": 10},
-                   "100 im":        {"x": 10, "y": 10},
-                   "200 fly":       {"x": 10, "y": 10},
-                   "200 back":      {"x": 10, "y": 10},
-                   "200 breast":    {"x": 10, "y": 10},
-                   "200 free":      {"x": 10, "y": 10},
-                   "200 im":        {"x": 10, "y": 10},
-                   "400 im":        {"x": 10, "y": 10},
-                   "500 free":      {"x": 10, "y": 10},
-                   "1000 free":     {"x": 10, "y": 10},
-                 };
+        addAthletePos = {"x": 10, "y": 10};
+
+    #try:
+    #    events = config["events"];
+    #except:
+    #    events = { "50 fly":        {"x": 10, "y": 10},
+    #               "50 back":       {"x": 10, "y": 10},
+    #               "50 breast":     {"x": 10, "y": 10},
+    #               "50 free":       {"x": 10, "y": 10},
+    #               "100 fly":       {"x": 10, "y": 10},
+    #               "100 back":      {"x": 10, "y": 10},
+    #               "100 breast":    {"x": 10, "y": 10},
+    #               "100 free":      {"x": 10, "y": 10},
+    #               "100 im":        {"x": 10, "y": 10},
+    #               "200 fly":       {"x": 10, "y": 10},
+    #               "200 back":      {"x": 10, "y": 10},
+    #               "200 breast":    {"x": 10, "y": 10},
+    #               "200 free":      {"x": 10, "y": 10},
+    #               "200 im":        {"x": 10, "y": 10},
+    #               "400 im":        {"x": 10, "y": 10},
+    #               "500 free":      {"x": 10, "y": 10},
+    #               "1000 free":     {"x": 10, "y": 10},
+    #             };
 
     # Start application
     startAppPos = configureCursor(startAppPos, "Start the application")
     if (startAppPos == -1) return -1;
 
+    # Athletes button
+    athletesPos = configureCursor(athletesPos, "Click the athletes button")
+    if (athletesPos == -1) return -1;
+
     # Add new athlete
-    addAthlete = configureCursor(addAthlete, "Add a new athlete")
-    if (startAppPos == -1) return -1;
+    addAthletePos = configureCursor(addAthletePos, "Add a new athlete")
+    if (addAthletePos == -1) return -1;
 
     #print("Configure event positions:\n");
     #for event in events:
     #    events[event] = configureCursor(events[event], "Event:");
     #    if (events[event] == -1) return -1;
+    updates = {
+        "startAppPos": startAppPos,
+        "athletesPos": athletesPos,
+        "addAthletePos": addAthletePos}
 
-    updateConfigFile({"startAppPos": startAppPos, "addAthlete": addAthlete});#, "eventPos": events});
+    updateConfigFile(updates);
     print("Updated config file!");
 
     return 0;
