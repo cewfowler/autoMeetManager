@@ -42,6 +42,11 @@ def configureMeetManager():
     except:
         addAthletePos = {"x": 10, "y": 10};
 
+    try:
+        addAthleteOkPos = config["addAthleteOkPos"];
+    except:
+        addAthleteOkPos = {"x": 10, "y": 10};
+
     #try:
     #    events = config["events"];
     #except:
@@ -83,7 +88,8 @@ def configureMeetManager():
     updates = {
         "startAppPos": startAppPos,
         "athletesPos": athletesPos,
-        "addAthletePos": addAthletePos}
+        "addAthletePos": addAthletePos,
+        "addAthleteOkPos": addAthleteOkPos}
 
     updateConfigFile(updates);
     print("Updated config file!");
