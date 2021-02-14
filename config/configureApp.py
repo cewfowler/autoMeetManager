@@ -2,6 +2,7 @@ import sys;
 import pyautogui;
 import json;
 import readchar;
+from adjustCursor import configureCursor
 
 # Reads config info
 #   Returns config object or empty object if there is an error
@@ -22,85 +23,19 @@ def updateConfigFile(updatedConfig):
         json.dump(updatedConfig, f);
         f.close();
 
-# Allows user to update cursor location for config
-#   x: starting x position
-#   y: starting y position
-#   Returns new x and y positions, or -1 if process cancelled
-#   newX: adjusted x position
-#   newY: adjusted y position
-def adjustCursor(x, y):
-    width, height = pyautogui.size();
-    wrongKeyAttempts = 3;
-    print('x-axis: ' + str(x) + '% from the left');
-    print('y-axis: ' + str(y) + '% from the bottom');
-
-    print('Adjust the cursor using your arrow keys (do not hold down or press too fast). Press \'c\' to cancel.\n');
-    while(True):
-        # Update cursor and get user key press
-        pyautogui.moveTo(width * x/100, height * (100 - y)/100, duration=0.1);
-        key = readchar.readkey();
-
-        # Map keyboard press to cursor movement, cancel, or continue
-        if (key == readchar.key.UP):
-            wrongKeyAttempts = 3;
-
-            if (y < 100):
-                y = y + 1;
-            else:
-                print("Can not move any further up!");
-
-        elif (key == readchar.key.DOWN):
-            wrongKeyAttempts = 3;
-
-            if (y > 0):
-                y = y - 1;
-            else:
-                print("Can not move any further down!");
-
-        elif (key == readchar.key.LEFT):
-            wrongKeyAttempts = 3;
-
-            if (x > 0):
-                x = x - 1;
-            else:
-                print("Can not move any further left!");
-
-        elif (key == readchar.key.RIGHT):
-            wrongKeyAttempts = 3;
-
-            if (x < 100):
-                x = x + 1;
-            else:
-                print("Can not move any further right!");
-
-        elif (key == readchar.key.ENTER):
-            print("New x-axis val: " + str(x) + "% from the left");
-            print('New y-axis val: ' + str(y) + '% from the bottom');
-            break;
-
-        elif (key == 'c'):
-            print("Configuration cancelled.");
-            return -1, -1;
-
-        else:
-            print("Invalid key pressed! Please enter a valid key. ")
-            wrongKeyAttempts = wrongKeyAttempts - 1;
-            print("Wrong key attempts left: " + str(wrongKeyAttempts));
-
-            if (wrongKeyAttempts <= 0):
-                print("Clearly this is too complicated for you to handle...");
-                break;
-
-    return x, y;
-
 # Configure all the mouse locations for the application
 def configureMeetManager():
     config = readConfigFile();
-    
+
     try:
         startAppPos = config["startAppPos"];
     except:
-        startAppPos = {"x": 10, "y": 10}
+        startAppPos = {"x": 10, "y": 10};
+
+    try:
+        addAthlete = config["addAthlete"];
+    except:
+        addAthlete = {"x": 10, "y": 10};
 
     try:
         events = config["events"];
@@ -124,31 +59,20 @@ def configureMeetManager():
                    "1000 free":     {"x": 10, "y": 10},
                  };
 
-    x = startAppPos["x"];
-    y = startAppPos["y"];
+    # Start application
+    startAppPos = configureCursor(startAppPos, "Start the application")
+    if (startAppPos == -1) return -1;
 
-    print("Setup for application start:\n")
-    newX,newY = adjustCursor(x,y);
-    if (newX == -1 and newY == -1):
-        print("Update config cancelled.")
-        return -1;
+    # Add new athlete
+    addAthlete = configureCursor(addAthlete, "Add a new athlete")
+    if (startAppPos == -1) return -1;
 
-    startAppPos["x"] = newX;
-    startAppPos["y"] = newY;
+    #print("Configure event positions:\n");
+    #for event in events:
+    #    events[event] = configureCursor(events[event], "Event:");
+    #    if (events[event] == -1) return -1;
 
-    print("Configure event positions:\n");
-    for event in events:
-        x = events[event]["x"];
-        y = events[event]["y"];
-        newX,newY = adjustCursor(x,y);
-        if (newX == -1 and newY == -1):
-            print("Update config cancelled.")
-            return -1;
-
-        events[event]["x"] = newX;
-        events[event]["y"] = newY;
-
-    updateConfigFile({"startAppPos": startAppPos, "eventPos": events});
+    updateConfigFile({"startAppPos": startAppPos, "addAthlete": addAthlete});#, "eventPos": events});
     print("Updated config file!");
 
     return 0;
