@@ -106,10 +106,10 @@ def getDataFromSheet(sheetUrl):
         swimmerInfo["gender"] = item[genderIndex];
         swimmerInfo["isNewSwimmer"] = item[isNewSwimmerIndex];
 
-        entries.update({"swimmerInfo": swimmerInfo["name"]});
+        swimmerInfo.update({"entries": entries});
 
         print(swimmerInfo["name"]);
-        print(entries);
+        print(swimmerInfo["entries"]);
         print();
 
         # Add the swimmer and their entries

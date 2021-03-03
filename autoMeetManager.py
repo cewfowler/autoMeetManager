@@ -37,8 +37,8 @@ def main(configure, sheetsUrl):
     signups = getDataFromSheet(sheetsUrl);
 
     for swimmer in signups:
-        print(swimmer["swimmerInfo"]["name"]);
-        print(signups[swimmer])
+        print(swimmer["name"]);
+        print(swimmer["entries"]);
 
     # pyautogui.moveTo(x, y, duration in seconds);
 
