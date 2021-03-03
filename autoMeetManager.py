@@ -37,7 +37,7 @@ def main(configure, sheetsUrl):
     signups = getDataFromSheet(sheetsUrl);
 
     for swimmer in signups:
-        print(swimmer);
+        print(swimmer["swimmerInfo"]["name"]);
         print(signups[swimmer])
 
     # pyautogui.moveTo(x, y, duration in seconds);
@@ -45,8 +45,12 @@ def main(configure, sheetsUrl):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Automate meet entries.");
-    parser.add_argument('-c', '--config', action='store_true', help='When this flag is set, the program first configures the application.');
-    parser.add_argument('--sheet', help='The meet signup url for access to the google sheet.', default="https://docs.google.com/spreadsheets/d/1r8Dn0gzlC2RoF6j2EH7q57u3r3VEdQPjz5651-OF1_g/edit#gid=882094980");
+    parser.add_argument('-c', '--config',
+        action='store_true',
+        help='When this flag is set, the program first configures the application.');
+    parser.add_argument('-s','--sheet',
+        help='The meet signup url for access to the google sheet.',
+        default="https://docs.google.com/spreadsheets/d/1r8Dn0gzlC2RoF6j2EH7q57u3r3VEdQPjz5651-OF1_g/edit#gid=882094980");
     args = parser.parse_args();
 
     main(args.config, args.sheet);

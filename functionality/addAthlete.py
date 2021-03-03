@@ -28,7 +28,7 @@ def addAthlete(addAthletePos, athletes):
         id = athlete["id"];
         gender = athlete["gender"];
 
-        printAthleteInfo(firstName, lastName, id, gender)
+        printAthleteInfo(firstName, lastName, id, gender);
 
         pyautogui.write(lastName, interval=0.1);
         pyautogui.press('tab', interval=0.1);

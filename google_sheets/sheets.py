@@ -3,23 +3,12 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 # Get swimmer meet entries from google sheet
-#   sheetUrl: default should not be used except for testing; contains the url
-#       to the google sheet with the meet entries
-#   Returns dict containing swimmers and all their entries
-def getDataFromSheet(sheetUrl):
-    # Authenticate for google sheets access
-    scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',"https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
-
-    credsFile = os.path.join(os.path.dirname(__file__), "creds.json");
-    creds = ServiceAccountCredentials.from_json_keyfile_name(credsFile, scope);
-    client = gspread.authorize(creds);
-
-    # Open the sheet, get the records, and get the first row (has event names)
-    sheet = client.open_by_url(sheetUrl).sheet1;
-    allData = sheet.get_all_records();
-    row = sheet.row_values(1);
-
-    lowerRow = [item.lower() for item in row];
+# Parameters:
+#   sheetsRow: the first row of the google sheet with the field names (including
+#        event names)
+# Returns the meet's events
+def getMeetEvents(sheetsRow):
+    lowerRow = [item.lower() for item in sheetsRow];
     events = { "50 fly":        -1,
                "50 back":       -1,
                "50 breast":     -1,
@@ -40,42 +29,91 @@ def getDataFromSheet(sheetUrl):
              };
 
     # If event exists, add index to dictionary
-    for event in events:
+    for e in events:
         try:
-            index = lowerRow.index(event);
-            events[event] = index;
+            index = lowerRow.index(e);
+            events[e] = index;
         except:
-            print(event + ' was not found for this meet.')
+            print(e + ' was not found for this meet.')
     print()
 
     # Remove events that don't exist in this meet
-    events = {event:index for event, index in events.items() if index != -1};
+    events = {e:index for e,index in events.items() if index != -1};
+    return events
+
+
+# Get swimmer meet entries from google sheet
+# Parameters:
+#   events: array of events and their indices
+#   times: the times the swimmer entered for their events
+# Returns the swimmer's meet entries
+def getMeetEntries(events, times):
+    entries = dict();
+    for e in events:
+        indexOfEvent = events[e];
+
+        # Get events and corresponding times
+        time = times[indexOfEvent];
+
+        # If person entered time, add event to entries
+        if (time):
+            #print("Event: " + entry);
+            #print("Time: " + time);
+            entries.update({e: time})
+
+    return entries;
+
+
+# Get swimmer meet entries from google sheet
+#   sheetUrl: default should not be used except for testing; contains the url
+#       to the google sheet with the meet entries
+#   Returns dict containing swimmers and all their entries
+def getDataFromSheet(sheetUrl):
+    # Authenticate for google sheets access
+    scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',"https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
+
+    credsFile = os.path.join(os.path.dirname(__file__), "creds.json");
+    creds = ServiceAccountCredentials.from_json_keyfile_name(credsFile, scope);
+    client = gspread.authorize(creds);
+
+    # Open the sheet, get the records, and get the first row (has event names)
+    sheet = client.open_by_url(sheetUrl).sheet1;
+    allData = sheet.get_all_records();
+    row = sheet.row_values(1);
+
+    # Important indices
+    nameIndex = row[1];
+    idIndex = row[2];
+    genderIndex = row[3];
+    isNewSwimmerIndex = row[4];
+
+    events = getMeetEvents(row);
 
     # Create dict with swimmers + entries and print to console
     signups = dict();
 
     print("Signups: ");
     for item in allData:
+        times = list(item.values());
 
-        entries = dict();
-        for event in events:
+        entries = getMeetEntries(events, vals)
 
-            # Get events and corresponding times
-            entry = list(item.keys())[events[event]];
-            time = list(item.values())[events[event]];
+        id = item[idIndex];
 
-            # If person entered time, add event to entries
-            if (time):
-                #print("Event: " + entry);
-                #print("Time: " + time);
-                entries.update({entry: time})
+        swimmerInfo = list();
+        swimmerInfo["name"] = item[nameIndex];
+        swimmerInfo["id"] = id;
+        swimmerInfo["gender"] = item[genderIndex];
+        swimmerInfo["isNewSwimmer"] = item[isNewSwimmerIndex];
 
-        print(item[row[1]]);
+        entries.update({"swimmerInfo": swimmerInfo["name"]});
+
+        print(swimmerInfo["name"]);
         print(entries);
         print();
 
-        # Add the person and their entries to signups
-        signups.update({item[row[1]]: entries});
+        # Add the swimmer and their entries
+        signups.update({id: entries});
 
     return signups;
 
