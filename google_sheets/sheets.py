@@ -89,30 +89,26 @@ def getDataFromSheet(sheetUrl):
 
     events = getMeetEvents(row);
 
-    # Create dict with swimmers + entries and print to console
     signups = dict();
 
     print("Signups: ");
+    # Add each swimmer and their entries
     for item in allData:
         times = list(item.values());
-
-        entries = getMeetEntries(events, vals)
-
+        entries = getMeetEntries(events, times)
         id = item[idIndex];
 
         swimmerInfo = list();
-        swimmerInfo["name"] = item[nameIndex];
         swimmerInfo["id"] = id;
+        swimmerInfo["name"] = item[nameIndex];
         swimmerInfo["gender"] = item[genderIndex];
         swimmerInfo["isNewSwimmer"] = item[isNewSwimmerIndex];
-
-        swimmerInfo.update({"entries": entries});
+        swimmerInfo["entries"] = entries;
 
         print(swimmerInfo["name"]);
         print(swimmerInfo["entries"]);
         print();
 
-        # Add the swimmer and their entries
         signups.update({id: entries});
 
     return signups;
