@@ -3,6 +3,7 @@ import pyautogui;
 import argparse;
 from config.configureApp import configureMeetManager, readConfigFile;
 from google_sheets.sheets import getDataFromSheet;
+from functionality.addAthlete import addAthlete;
 
 # Get OS
 os = sys.platform;
@@ -33,10 +34,16 @@ def main(configure, sheetsUrl):
         configureMeetManager();
 
     config = readConfigFile();
+    addAthleteBtnPos = config["addAthleteBtnPos"]
 
     signups = getDataFromSheet(sheetsUrl);
 
     for swimmer in signups:
+        # Add new swimmers
+        if (swimmer["isNewSwimmer"]):
+            addAthlete(addAthleteBtnPos, swimmer);
+
+
         print(swimmer["name"]);
         print(swimmer["entries"]);
 

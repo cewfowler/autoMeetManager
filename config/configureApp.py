@@ -28,24 +28,24 @@ def configureMeetManager():
     config = readConfigFile();
 
     try:
-        startAppPos = config["startAppPos"];
+        startAppBtnPos = config["startAppBtnPos"];
     except:
-        startAppPos = {"x": 10, "y": 10};
+        startAppBtnPos = {"x": 10, "y": 10};
 
     try:
-        athletesPos = config["athletesPos"];
+        athletesBtnPos = config["athletesBtnPos"];
     except:
-        athletesPos = {"x": 10, "y": 10};
+        athletesBtnPos = {"x": 10, "y": 10};
 
     try:
-        addAthletePos = config["addAthletePos"];
+        addAthleteBtnPos = config["addAthleteBtnPos"];
     except:
-        addAthletePos = {"x": 10, "y": 10};
+        addAthleteBtnPos = {"x": 10, "y": 10};
 
     try:
-        addAthleteOkPos = config["addAthleteOkPos"];
+        addAthleteOkBtnPos = config["addAthleteOkBtnPos"];
     except:
-        addAthleteOkPos = {"x": 10, "y": 10};
+        addAthleteOkBtnPos = {"x": 10, "y": 10};
 
     #try:
     #    events = config["events"];
@@ -70,26 +70,30 @@ def configureMeetManager():
     #             };
 
     # Start application
-    startAppPos = configureCursor(startAppPos, "Start the application")
-    if (startAppPos == -1) return -1;
+    startAppBtnPos = configureCursor(startAppBtnPos, "Start the application")
+    if (startAppBtnPos == -1) return -1;
 
     # Athletes button
-    athletesPos = configureCursor(athletesPos, "Click the athletes button")
-    if (athletesPos == -1) return -1;
+    athletesBtnPos = configureCursor(athletesBtnPos, "Click the athletes button")
+    if (athletesBtnPos == -1) return -1;
 
     # Add new athlete
-    addAthletePos = configureCursor(addAthletePos, "Add a new athlete")
-    if (addAthletePos == -1) return -1;
+    addAthleteBtnPos = configureCursor(addAthleteBtnPos, "Add a new athlete")
+    if (addAthleteBtnPos == -1) return -1;
+
+    # Add new athlete ok button
+    addAthleteOkBtnPos = configureCursor(addAthleteOkBtnPos, "Add a new athlete")
+    if (addAthleteOkBtnPos == -1) return -1;
 
     #print("Configure event positions:\n");
     #for event in events:
     #    events[event] = configureCursor(events[event], "Event:");
     #    if (events[event] == -1) return -1;
     updates = {
-        "startAppPos": startAppPos,
-        "athletesPos": athletesPos,
-        "addAthletePos": addAthletePos,
-        "addAthleteOkPos": addAthleteOkPos}
+        "startAppBtnPos": startAppBtnPos,
+        "athletesBtnPos": athletesBtnPos,
+        "addAthleteBtnPos": addAthleteBtnPos,
+        "addAthleteOkBtnPos": addAthleteOkBtnPos}
 
     updateConfigFile(updates);
     print("Updated config file!");

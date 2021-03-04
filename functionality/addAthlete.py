@@ -13,7 +13,7 @@ def printAthleteInfo(firstName, lastName, id, gender):
 # Add new athletes into the system
 #   addAthletePos: The position of the add athlete button on the screen
 #   athletes: The athletes and their information
-def addAthlete(addAthletePos, athletes):
+def addAthlete(addAthletePos, athlete):
     width, height = pyautogui.size();
     x = addAthletePos["x"];
     y = addAthletePos["y"];
@@ -22,14 +22,13 @@ def addAthlete(addAthletePos, athletes):
     pyautogui.click();
     sleep(0.5);
 
-    for athlete in athletes:
-        # Get the athlete info
-        [firstName, lastName] = athlete["name"].split(" ",1);
-        id = athlete["id"];
-        gender = athlete["gender"];
+    # Get the athlete info
+    [firstName, lastName] = athlete["name"].split(" ",1);
+    id = athlete["id"];
+    gender = athlete["gender"];
 
-        printAthleteInfo(firstName, lastName, id, gender);
+    printAthleteInfo(firstName, lastName, id, gender);
 
-        pyautogui.write(lastName, interval=0.1);
-        pyautogui.press('tab', interval=0.1);
-        pyautogui.write(firstName, interval=0.1);
+    pyautogui.write(lastName, interval=0.1);
+    pyautogui.press('tab', interval=0.1);
+    pyautogui.write(firstName, interval=0.1);

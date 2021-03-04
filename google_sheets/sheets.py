@@ -92,6 +92,7 @@ def getDataFromSheet(sheetUrl):
     signups = dict();
 
     print("Signups: ");
+
     # Add each swimmer and their entries
     for item in allData:
         times = list(item.values());
@@ -109,7 +110,7 @@ def getDataFromSheet(sheetUrl):
         print(swimmerInfo["entries"]);
         print();
 
-        signups.update({id: entries});
+        signups.update({id: swimmerInfo});
 
     return signups;
 
