@@ -92,3 +92,11 @@ def configureCursor(vals, msg):
     vals["y"] = newY;
 
     return vals;
+
+def getCoordinates(position):
+    width, height = pyautogui.size();
+
+    posX = width * position["x"]/100;
+    posY = height * (100 - position["y"])/100;
+
+    return [posX, posY];

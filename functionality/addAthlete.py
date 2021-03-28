@@ -1,4 +1,5 @@
 import pyautogui;
+from config.adjustCursor import getCoordinates;
 
 # Print an athletes info (for testing)
 #   firstName: first name
@@ -13,12 +14,12 @@ def printAthleteInfo(firstName, lastName, id, gender):
 # Add new athletes into the system
 #   addAthletePos: The position of the add athlete button on the screen
 #   athletes: The athletes and their information
-def addAthlete(addAthletePos, athlete):
-    width, height = pyautogui.size();
-    x = addAthletePos["x"];
-    y = addAthletePos["y"];
+def addAthlete(addAthletePos, athlete, teamPos, okPos):
+    [addAthleteX, addAthleteY] = getCoordinates(addAthletePos)
+    [teamX, teamY] = getCoordinates(teamPos)
+    [okX, okY] = getCoordinates(okPos);
 
-    pyautogui.moveTo(width * x/100, height * (100 - y)/100, duration=0.1);
+    pyautogui.moveTo(addAthleteX, addAthleteY, duration=0.1);
     pyautogui.click();
     sleep(0.5);
 
@@ -32,3 +33,17 @@ def addAthlete(addAthletePos, athlete):
     pyautogui.write(lastName, interval=0.1);
     pyautogui.press('tab', interval=0.1);
     pyautogui.write(firstName, interval=0.1);
+
+    pyautogui.press('tab', interval=0.1);
+    pyautogui.press('tab', interval=0.1);
+    pyautogui.press('tab', interval=0.1);
+    pyautogui.press('tab', interval=0.1);
+    pyautogui.press('tab', interval=0.1);
+    pyautogui.write(id, interval=0.1);
+
+    pyautogui.moveTo(teamX, teamY, duration=0.1);
+    pyautogui.write("FCSD-FL", interval=0.1);
+    pyautogui.press('tab', interval=0.1);
+
+    pyautogui.moveTo(okX, okY, duration=0.1);
+    pyautogui.click();
