@@ -9,6 +9,7 @@ import readchar;
 #   Returns new x and y positions, or -1 if process cancelled
 #   newX: adjusted x position
 #   newY: adjusted y position
+# Returns: the new x and y positions
 def adjustCursor(x, y):
     width, height = pyautogui.size();
     wrongKeyAttempts = 3;
@@ -77,6 +78,7 @@ def adjustCursor(x, y):
 # Allow user to select new coordinate values
 #   vals: The original coordinate values
 #   msg: The message to display to the user
+# Returns: the new x and y vals saved as the JSON position
 def configureCursor(vals, msg):
     # Add new athlete
     x = vals["x"];
@@ -93,6 +95,9 @@ def configureCursor(vals, msg):
 
     return vals;
 
+# Get the x and y cooredinates for the screen given the JSON position
+#   position: the JSON position
+# Returns: the x and y position on the screen
 def getCoordinates(position):
     width, height = pyautogui.size();
 

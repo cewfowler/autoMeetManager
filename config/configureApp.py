@@ -5,7 +5,7 @@ import readchar;
 from adjustCursor import configureCursor
 
 # Reads config info
-#   Returns config object or empty object if there is an error
+# Returns: config object or empty object if there is an error
 def readConfigFile():
     try:
         with open('config/config.json', 'r') as f:
@@ -24,6 +24,7 @@ def updateConfigFile(updatedConfig):
         f.close();
 
 # Configure all the mouse locations for the application
+# Returns: 0 if config was successful, -1 otherwise
 def configureMeetManager():
     config = readConfigFile();
 
