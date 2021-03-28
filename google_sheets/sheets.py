@@ -6,7 +6,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 # Parameters:
 #   sheetsRow: the first row of the google sheet with the field names (including
 #        event names)
-# Returns the meet's events
+# Returns: the meet's events
 def getMeetEvents(sheetsRow):
     lowerRow = [item.lower() for item in sheetsRow];
     events = { "50 fly":        -1,
@@ -46,7 +46,7 @@ def getMeetEvents(sheetsRow):
 # Parameters:
 #   events: array of events and their indices
 #   times: the times the swimmer entered for their events
-# Returns the swimmer's meet entries
+# Returns: the swimmer's meet entries
 def getMeetEntries(events, times):
     entries = dict();
     for e in events:
@@ -67,7 +67,7 @@ def getMeetEntries(events, times):
 # Get swimmer meet entries from google sheet
 #   sheetUrl: default should not be used except for testing; contains the url
 #       to the google sheet with the meet entries
-#   Returns dict containing swimmers and all their entries
+# Returns: dict containing swimmers and all their entries
 def getDataFromSheet(sheetUrl):
     # Authenticate for google sheets access
     scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',"https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
