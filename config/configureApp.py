@@ -16,12 +16,14 @@ def readConfigFile():
     except:
         return {};
 
+
 # Writes updated config info
 #   updatedConfig: value to update
 def updateConfigFile(updatedConfig):
     with open('config/config.json', 'w+') as f:
         json.dump(updatedConfig, f);
         f.close();
+
 
 # Configure all the mouse locations for the application
 # Returns: 0 if config was successful, -1 otherwise
@@ -72,19 +74,23 @@ def configureMeetManager():
 
     # Start application
     startAppBtnPos = configureCursor(startAppBtnPos, "Start the application")
-    if (startAppBtnPos == -1) return -1;
+    if (startAppBtnPos == -1):
+        return -1;
 
     # Athletes button
     athletesBtnPos = configureCursor(athletesBtnPos, "Click the athletes button")
-    if (athletesBtnPos == -1) return -1;
+    if (athletesBtnPos == -1):
+        return -1;
 
     # Add new athlete
     addAthleteBtnPos = configureCursor(addAthleteBtnPos, "Add a new athlete")
-    if (addAthleteBtnPos == -1) return -1;
+    if (addAthleteBtnPos == -1):
+        return -1;
 
     # Add new athlete ok button
     addAthleteOkBtnPos = configureCursor(addAthleteOkBtnPos, "Add a new athlete")
-    if (addAthleteOkBtnPos == -1) return -1;
+    if (addAthleteOkBtnPos == -1):
+        return -1;
 
     #print("Configure event positions:\n");
     #for event in events:

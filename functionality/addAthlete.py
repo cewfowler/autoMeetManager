@@ -11,6 +11,7 @@ def printAthleteInfo(firstName, lastName, id, gender):
     print("\tID: " + id + "\n");
     print("\tGender: " + gender + "\n\n");
 
+
 # Add new athletes into the system
 #   addAthletePos: The position of the add athlete button on the screen
 #   athletes: The athletes and their information

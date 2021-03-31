@@ -75,6 +75,7 @@ def adjustCursor(x, y):
 
     return x, y;
 
+
 # Allow user to select new coordinate values
 #   vals: The original coordinate values
 #   msg: The message to display to the user
@@ -94,6 +95,7 @@ def configureCursor(vals, msg):
     vals["y"] = newY;
 
     return vals;
+
 
 # Get the x and y cooredinates for the screen given the JSON position
 #   position: the JSON position
