@@ -107,3 +107,7 @@ def getCoordinates(position):
     posY = height * (100 - position["y"])/100;
 
     return [posX, posY];
+
+def tabToField(numTabs):
+    for i=1:numTabs:
+        pyautogui.press('tab', interval=0.1);

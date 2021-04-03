@@ -34,6 +34,11 @@ def main(configure, sheetsUrl):
         configureMeetManager();
 
     config = readConfigFile();
+
+    if (config == []):
+        print("App has not been configured yet. Let's set up the configuration.");
+        configureMeetManager();
+
     addAthleteBtnPos = config["addAthleteBtnPos"]
 
     signups = getDataFromSheet(sheetsUrl);

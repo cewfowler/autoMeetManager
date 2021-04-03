@@ -1,5 +1,5 @@
 import pyautogui;
-from config.adjustCursor import getCoordinates;
+from config.adjustCursor import getCoordinates,tabToField;
 
 # Print an athletes info (for testing)
 #   firstName: first name
@@ -35,16 +35,15 @@ def addAthlete(addAthletePos, athlete, teamPos, okPos):
     pyautogui.press('tab', interval=0.1);
     pyautogui.write(firstName, interval=0.1);
 
-    pyautogui.press('tab', interval=0.1);
-    pyautogui.press('tab', interval=0.1);
-    pyautogui.press('tab', interval=0.1);
-    pyautogui.press('tab', interval=0.1);
-    pyautogui.press('tab', interval=0.1);
+    tabToField(6);
     pyautogui.write(id, interval=0.1);
 
-    pyautogui.moveTo(teamX, teamY, duration=0.1);
+    pyautogui.press('tab', interval=0.1);
+    pyautogui.write(gender, interval=0.1);
+
+    tabToField(3);
     pyautogui.write("FCSD-FL", interval=0.1);
     pyautogui.press('tab', interval=0.1);
 
-    pyautogui.moveTo(okX, okY, duration=0.1);
-    pyautogui.click();
+    tabToField(32);
+    pyautogui.press('enter', interval=0.1);

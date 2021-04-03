@@ -14,7 +14,7 @@ def readConfigFile():
 
         return config;
     except:
-        return {};
+        return [];
 
 
 # Writes updated config info
@@ -23,6 +23,10 @@ def updateConfigFile(updatedConfig):
     with open('config/config.json', 'w+') as f:
         json.dump(updatedConfig, f);
         f.close();
+
+# Opens the command prompt to return context
+def resetContext():
+    return;
 
 
 # Configure all the mouse locations for the application
@@ -98,9 +102,7 @@ def configureMeetManager():
     #    if (events[event] == -1) return -1;
     updates = {
         "startAppBtnPos": startAppBtnPos,
-        "athletesBtnPos": athletesBtnPos,
-        "addAthleteBtnPos": addAthleteBtnPos,
-        "addAthleteOkBtnPos": addAthleteOkBtnPos}
+        "athletesBtnPos": athletesBtnPos,}
 
     updateConfigFile(updates);
     print("Updated config file!");
