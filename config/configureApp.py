@@ -81,11 +81,15 @@ def configureMeetManager():
     startAppBtnPos = configureCursor(startAppBtnPos, "Starting the application");
     if (startAppBtnPos == -1):
         return -1;
+    pyautogui.click();
+    resetContext(resetContext);
 
     # Athletes button
     athletesBtnPos = configureCursor(athletesBtnPos, "The athletes button/tab");
     if (athletesBtnPos == -1):
         return -1;
+    pyautogui.click();
+    resetContext(resetContext);
 
     # Add new athlete
     addAthleteBtnPos = configureCursor(addAthleteBtnPos, "The \"Add a new athlete\" button/tab")

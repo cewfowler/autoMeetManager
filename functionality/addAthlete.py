@@ -17,9 +17,9 @@ def printAthleteInfo(firstName, lastName, id, gender):
 #   athletes: The athletes and their information
 #   team: the new athlete's team
 def addAthlete(addAthletePos, athlete, team):
-    [addAthleteX, addAthleteY] = getCoordinates(addAthletePos);
+    [x, y] = getCoordinates(addAthletePos);
 
-    pyautogui.moveTo(addAthleteX, addAthleteY, duration=0.1);
+    pyautogui.moveTo(x, y, duration=0.1);
     pyautogui.click();
     sleep(0.5);
 

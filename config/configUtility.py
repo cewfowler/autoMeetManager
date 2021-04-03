@@ -1,6 +1,15 @@
+from adjustCursor import getCoordinates;
+
 # Opens the command prompt to return context
+#   resetContext: the the command prompt position and its position in the toolbar
 def resetContext(resetContext):
-    return;
+    [x,y] = getCoordinates(resetContext["commandPromptToolbarPos"]);
+    pyautogui.moveTo(x, y, duration=0.1);
+    pyautogui.click();
+
+    [x,y] = getCoordinates(resetContext["commandPromptPos"]);
+    pyautogui.moveTo(x, y, duration=0.5);
+    pyautogui.click();
 
 # Load the starting positions from the config object
 #   config: the config object
