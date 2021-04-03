@@ -39,14 +39,15 @@ def main(configure, sheetsUrl):
         print("App has not been configured yet. Let's set up the configuration.");
         configureMeetManager();
 
-    addAthleteBtnPos = config["addAthleteBtnPos"]
+    addAthleteBtnPos = config["addAthleteBtnPos"];
+    team = config["team"];
 
     signups = getDataFromSheet(sheetsUrl);
 
     for swimmer in signups:
         # Add new swimmers
         if (swimmer["isNewSwimmer"]):
-            addAthlete(addAthleteBtnPos, swimmer);
+            addAthlete(addAthleteBtnPos, swimmer, team);
 
 
         print(swimmer["name"]);

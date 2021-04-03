@@ -109,5 +109,5 @@ def getCoordinates(position):
     return [posX, posY];
 
 def tabToField(numTabs):
-    for i=1:numTabs:
+    for i in range(1, numTabs):
         pyautogui.press('tab', interval=0.1);

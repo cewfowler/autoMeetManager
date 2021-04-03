@@ -1,8 +1,9 @@
 import sys;
 import pyautogui;
 import json;
-import readchar;
-from adjustCursor import configureCursor
+import cmd;
+from adjustCursor import configureCursor;
+from configUtility import loadStartingPos, resetContext;
 
 # Reads config info
 # Returns: config object or empty object if there is an error
@@ -24,85 +25,84 @@ def updateConfigFile(updatedConfig):
         json.dump(updatedConfig, f);
         f.close();
 
-# Opens the command prompt to return context
-def resetContext():
-    return;
+# Prompts the user to enter their team
+#   team: the existing team name (or "" if there is none)
+# Returns team name of -1 on too many failed attempts
+def getTeam(team):
+    accurateEntry = False;
+    count = 0;
 
+    while (not accurateEntry):
+        if (team == ""):
+            team = input("Enter the team name (the one used in the team field): ");
+        yesOrNo = input("Team name: " + team + ". Is this correct? (Enter \'y\' for yes or \'n\' for no): ");
+        if (yesOrNo == "y"):
+            accurateEntry = True;
+        elif (yesOrNo == "n"):
+            team = "";
+            count = 0;
+        else:
+            print("Sorry I didn't quite get that...");
+            count += 1;
+
+            if (count > 3):
+                print("Sorry, too many failed attempts. Better luck next time.");
+                return -1;
+    return team;
 
 # Configure all the mouse locations for the application
 # Returns: 0 if config was successful, -1 otherwise
 def configureMeetManager():
     config = readConfigFile();
-
     try:
-        startAppBtnPos = config["startAppBtnPos"];
+        team = config["team"];
     except:
-        startAppBtnPos = {"x": 10, "y": 10};
+        team = "";
+    team = getTeam(team);
 
-    try:
-        athletesBtnPos = config["athletesBtnPos"];
-    except:
-        athletesBtnPos = {"x": 10, "y": 10};
+    if (team == -1):
+        return -1;
 
-    try:
-        addAthleteBtnPos = config["addAthleteBtnPos"];
-    except:
-        addAthleteBtnPos = {"x": 10, "y": 10};
+    [resetContext, startAppBtnPos, athletesBtnPos, addAthleteBtnPos] = loadStartingPos(config);
 
-    try:
-        addAthleteOkBtnPos = config["addAthleteOkBtnPos"];
-    except:
-        addAthleteOkBtnPos = {"x": 10, "y": 10};
+    resetContext["commandPromptToolbarPos"] = configureCursor(resetContext["commandPromptToolbarPos"],
+        "First things first (warm up): Get the cursor over this screen (command prompt)");
+    if (resetContext["commandPromptToolbarPos"] == -1):
+        return -1;
 
-    #try:
-    #    events = config["events"];
-    #except:
-    #    events = { "50 fly":        {"x": 10, "y": 10},
-    #               "50 back":       {"x": 10, "y": 10},
-    #               "50 breast":     {"x": 10, "y": 10},
-    #               "50 free":       {"x": 10, "y": 10},
-    #               "100 fly":       {"x": 10, "y": 10},
-    #               "100 back":      {"x": 10, "y": 10},
-    #               "100 breast":    {"x": 10, "y": 10},
-    #               "100 free":      {"x": 10, "y": 10},
-    #               "100 im":        {"x": 10, "y": 10},
-    #               "200 fly":       {"x": 10, "y": 10},
-    #               "200 back":      {"x": 10, "y": 10},
-    #               "200 breast":    {"x": 10, "y": 10},
-    #               "200 free":      {"x": 10, "y": 10},
-    #               "200 im":        {"x": 10, "y": 10},
-    #               "400 im":        {"x": 10, "y": 10},
-    #               "500 free":      {"x": 10, "y": 10},
-    #               "1000 free":     {"x": 10, "y": 10},
-    #             };
+    resetContext["commandPromptPos"] = configureCursor(resetContext["commandPromptPos"],
+        "Now click the command prompt button on the toolbar (where you would click to minimize/maximize this screen)");
+    if (resetContext["commandPromptPos"] == -1):
+        return -1;
+
+    print("Now adjust the cursor to be over the following functionality:");
 
     # Start application
-    startAppBtnPos = configureCursor(startAppBtnPos, "Start the application")
+    startAppBtnPos = configureCursor(startAppBtnPos, "Starting the application");
     if (startAppBtnPos == -1):
         return -1;
 
     # Athletes button
-    athletesBtnPos = configureCursor(athletesBtnPos, "Click the athletes button")
+    athletesBtnPos = configureCursor(athletesBtnPos, "The athletes button/tab");
     if (athletesBtnPos == -1):
         return -1;
 
     # Add new athlete
-    addAthleteBtnPos = configureCursor(addAthleteBtnPos, "Add a new athlete")
+    addAthleteBtnPos = configureCursor(addAthleteBtnPos, "The \"Add a new athlete\" button/tab")
     if (addAthleteBtnPos == -1):
-        return -1;
-
-    # Add new athlete ok button
-    addAthleteOkBtnPos = configureCursor(addAthleteOkBtnPos, "Add a new athlete")
-    if (addAthleteOkBtnPos == -1):
         return -1;
 
     #print("Configure event positions:\n");
     #for event in events:
     #    events[event] = configureCursor(events[event], "Event:");
     #    if (events[event] == -1) return -1;
+
     updates = {
+        "team": team,
+        "resetContext": resetContext,
         "startAppBtnPos": startAppBtnPos,
-        "athletesBtnPos": athletesBtnPos,}
+        "athletesBtnPos": athletesBtnPos,
+        "addAthleteBtnPos": addAthleteBtnPos,}
 
     updateConfigFile(updates);
     print("Updated config file!");

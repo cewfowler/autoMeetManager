@@ -15,10 +15,9 @@ def printAthleteInfo(firstName, lastName, id, gender):
 # Add new athletes into the system
 #   addAthletePos: The position of the add athlete button on the screen
 #   athletes: The athletes and their information
-def addAthlete(addAthletePos, athlete, teamPos, okPos):
-    [addAthleteX, addAthleteY] = getCoordinates(addAthletePos)
-    [teamX, teamY] = getCoordinates(teamPos)
-    [okX, okY] = getCoordinates(okPos);
+#   team: the new athlete's team
+def addAthlete(addAthletePos, athlete, team):
+    [addAthleteX, addAthleteY] = getCoordinates(addAthletePos);
 
     pyautogui.moveTo(addAthleteX, addAthleteY, duration=0.1);
     pyautogui.click();
@@ -38,12 +37,15 @@ def addAthlete(addAthletePos, athlete, teamPos, okPos):
     tabToField(6);
     pyautogui.write(id, interval=0.1);
 
+    # Gender field
     pyautogui.press('tab', interval=0.1);
     pyautogui.write(gender, interval=0.1);
 
+    # Team field
     tabToField(3);
-    pyautogui.write("FCSD-FL", interval=0.1);
+    pyautogui.write(team, interval=0.1);
     pyautogui.press('tab', interval=0.1);
 
+    # OK btn
     tabToField(32);
     pyautogui.press('enter', interval=0.1);
