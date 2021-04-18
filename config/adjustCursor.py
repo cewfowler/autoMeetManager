@@ -108,6 +108,9 @@ def getCoordinates(position):
 
     return [posX, posY];
 
-def tabToField(numTabs):
+# Presses 'tab' the specified number of times
+#   numTabs: the number of tabs to press
+#   dur: the duration of the tab presses
+def tabToField(numTabs, dur):
     for i in range(1, numTabs):
-        pyautogui.press('tab', interval=0.1);
+        pyautogui.press('tab', interval=dur);

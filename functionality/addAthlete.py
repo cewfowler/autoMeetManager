@@ -16,10 +16,11 @@ def printAthleteInfo(firstName, lastName, id, gender):
 #   addAthletePos: The position of the add athlete button on the screen
 #   athletes: The athletes and their information
 #   team: the new athlete's team
-def addAthlete(addAthletePos, athlete, team):
+#   dur: the duration of moving/clicking with pyautogui
+def addAthlete(addAthletePos, athlete, team, dur):
     [x, y] = getCoordinates(addAthletePos);
 
-    pyautogui.moveTo(x, y, duration=0.1);
+    pyautogui.moveTo(x, y, duration=dur);
     pyautogui.click();
     sleep(0.5);
 
@@ -30,22 +31,22 @@ def addAthlete(addAthletePos, athlete, team):
 
     printAthleteInfo(firstName, lastName, id, gender);
 
-    pyautogui.write(lastName, interval=0.1);
-    pyautogui.press('tab', interval=0.1);
-    pyautogui.write(firstName, interval=0.1);
+    pyautogui.write(lastName, interval=dur);
+    pyautogui.press('tab', interval=dur);
+    pyautogui.write(firstName, interval=dur);
 
-    tabToField(6);
-    pyautogui.write(id, interval=0.1);
+    tabToField(6, dur);
+    pyautogui.write(id, interval=dur);
 
     # Gender field
-    pyautogui.press('tab', interval=0.1);
-    pyautogui.write(gender, interval=0.1);
+    pyautogui.press('tab', interval=dur);
+    pyautogui.write(gender, interval=dur);
 
     # Team field
-    tabToField(3);
-    pyautogui.write(team, interval=0.1);
-    pyautogui.press('tab', interval=0.1);
+    tabToField(3, dur);
+    pyautogui.write(team, interval=dur);
+    pyautogui.press('tab', interval=dur);
 
     # OK btn
-    tabToField(32);
-    pyautogui.press('enter', interval=0.1);
+    tabToField(32, dur);
+    pyautogui.press('enter', interval=dur);

@@ -28,7 +28,8 @@ else:
 #       first configure the necessary mouse locations
 #   sheetsUrl: default should not be used except for testing; contains the url
 #       to the google sheet with the meet entries
-def main(configure, sheetsUrl):
+#   dur: the duration of the pyautogui commands
+def main(configure, sheetsUrl, dur):
     if (configure):
         print('Beginning configuration...');
         configureMeetManager();
@@ -47,7 +48,7 @@ def main(configure, sheetsUrl):
     for swimmer in signups:
         # Add new swimmers
         if (swimmer["isNewSwimmer"]):
-            addAthlete(addAthleteBtnPos, swimmer, team);
+            addAthlete(addAthleteBtnPos, swimmer, team, dur);
 
 
         print(swimmer["name"]);
@@ -64,6 +65,33 @@ if __name__ == '__main__':
     parser.add_argument('-s','--sheet',
         help='The meet signup url for access to the google sheet.',
         default="https://docs.google.com/spreadsheets/d/1r8Dn0gzlC2RoF6j2EH7q57u3r3VEdQPjz5651-OF1_g/edit#gid=882094980");
-    args = parser.parse_args();
+    parser.add_argument('--very_slow',
+        action='store_true',
+        help='Sets the duration of the pyautogui commands to 4 seconds.');
+    parser.add_argument('--slow',
+        action='store_true',
+        help='Sets the duration of the pyautogui commands to 1 second.');
+    parser.add_argument('--med',
+        action='store_true',
+        help='Sets the duration of the pyautogui commands to 0.5 seconds.');
+    parser.add_argument('--fast',
+        action='store_true',
+        help='Sets the duration of the pyautogui commands to 0.1 seconds.');
+    parser.add_argument('-d','--dur',
+        action='store',
+        help='Sets the duration of the pyautogui commands to the input.');
 
-    main(args.config, args.sheet);
+    args = parser.parse_args();
+    dur = 0.1;
+    if (args.very_slow):
+        dur = 4;
+    else if (args.slow):
+        dur = 1;
+    else if (args.med):
+        dur = 0.5;
+    else if (args.fast):
+        dur = 0.1;
+    else if (args.dur):
+        dur = args.dur;
+
+    main(args.config, args.sheet, dur);
